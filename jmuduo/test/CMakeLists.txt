@@ -1,0 +1,1 @@
+add_executable(boost_static_assert boost_static_assert.cc)
