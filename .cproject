@@ -31,6 +31,11 @@
 							</tool>
 						</toolChain>
 					</folderInfo>
+					<fileInfo id="0.724235726.1117495353" name="Deadlock_test.cc" rcbsApplicability="disable" resourcePath="jmuduo/test/Deadlock_test.cc" toolsToInvoke="org.eclipse.cdt.build.core.settings.holder.365383356.2037780983">
+						<tool id="org.eclipse.cdt.build.core.settings.holder.365383356.2037780983" name="GNU C++" superClass="org.eclipse.cdt.build.core.settings.holder.365383356">
+							<inputType id="org.eclipse.cdt.build.core.settings.holder.inType.395833639" languageId="org.eclipse.cdt.core.g++" languageName="GNU C++" sourceContentType="org.eclipse.cdt.core.cxxSource,org.eclipse.cdt.core.cxxHeader" superClass="org.eclipse.cdt.build.core.settings.holder.inType"/>
+						</tool>
+					</fileInfo>
 				</configuration>
 			</storageModule>
 			<storageModule moduleId="org.eclipse.cdt.core.externalSettings"/>
@@ -46,4 +51,9 @@
 		</scannerConfigBuildInfo>
 	</storageModule>
 	<storageModule moduleId="org.eclipse.cdt.core.LanguageSettingsProviders"/>
+	<storageModule moduleId="refreshScope" versionNumber="2">
+		<configuration configurationName="Default">
+			<resource resourceType="PROJECT" workspacePath="/muduo_source_read"/>
+		</configuration>
+	</storageModule>
 </cproject>

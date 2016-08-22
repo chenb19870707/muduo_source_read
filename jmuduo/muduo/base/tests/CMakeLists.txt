@@ -10,3 +10,7 @@ add_executable(exception_test Exception_test.cc)
 target_link_libraries(exception_test muduo_base)
 add_test(NAME exception_test COMMAND exception_test)
 
+add_executable(thread_test Thread_test.cc)
+target_link_libraries(thread_test muduo_base)
+add_test(NAME thread_test COMMAND thread_test)
+
