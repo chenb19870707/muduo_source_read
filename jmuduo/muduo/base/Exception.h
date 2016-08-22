@@ -30,6 +30,7 @@ class Exception : public std::exception
 
  private:
   void fillStackTrace();
+  string demangle(const char* symbol);
 
   string message_;			//异常信息
   string stack_;			//当前堆栈
