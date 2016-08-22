@@ -16,10 +16,15 @@ Timestamp Ê±¼äÀà (less_than_comparable ÒªÇóÊµÏÖ < £¬¿É×Ô¶¯ÊµÏÖ >,<=,>=,Ä£°åÔª±à³
 Atomic Ô­×ÓÕûÊıÀà£¨Ô­×Ó²Ù×÷º¯Êı£©
 
 ##2016-08-22 
-1.Exception Òì³£Àà(backstrace(»ñÈ¡¶ÑÕ») backtrace_symbols(½«¶ÑµØÖ·×ª»¯Îªº¯ÊıÃû³Æ) __cxa_demangle(½âÎö»ìÏı))
-2.Thread Ïß³ÌÀà 
-int nanosleep(const struct timespec *req, struct timespec *rem) º¯Êı»áµ¼ÖÂµ±Ç°µÄÏß³Ì½«ÔİÍ£Ö´ĞĞ,Ö±µ½rqtp²ÎÊıËùÖ¸¶¨µÄÊ±¼ä¼ä¸ô
-__thread gccÄÚÖÃµÄÏß³Ì¾Ö²¿´æ´¢ÉèÊ©  __thread ĞŞÊÎµÄ±äÁ¿ÊÇÏß³ÌÄÚ¾Ö²¿´æ´¢µÄ£¬Ã¿¸öÏß³Ì¶¼ÓĞÒ»·İ£¬²»»á¹²Ïí £¬Ö»ÄÜĞŞÊÎPODÀàĞÍ£º»ù±¾ÀàĞÍ»òÖ¸Õë
-int pthread_atfork(void (*prepare)(void), void (*parent)(void),void (*child)(void)); µ÷ÓÃforkÖ®Ç°ÔÚ ¸¸Ïß³ÌÄÚµ÷ÓÃprepare£¬µ÷ÓÃforkÖ®ºó£¬ÔÚ×ÓÏß³ÌÄÚµ÷ÓÃchild£¬ÔÚ¸¸Ïß³ÌÄÚµ÷ÓÃparent
-ÔÚLinuxÖĞ£¬¸¸½ø³ÌÔÚ¸´ÖÆ×Ó½ø³ÌµÄÊ±ºò£¬Ö»»á¸´ÖÆµ±Ç°Ïß³ÌµÄÖ´ĞĞ×´Ì¬£¬ÆäËüÏß³Ì²»»á¸´ÖÆ£¬¶ÔÓÚ¶àÏß³Ì³ÌĞòÀ´Ëµ£¬ÎÒÃÇ×îºÃ²»ÒªÓÃfork,»áÒıÆğËÀËø£¬±ÈÈçµ±Ç°Ïß³ÌµÄËø´¦ÓÚlock×´Ì¬£¬forkÊ±µ±Ç°Ïß³ÌµÄËø»á±»¿½±´Îªlock×´Ì¬£¬forkÖ®ºóµ±Ç°Ïß³Ì»á×÷Îª×Ó½ø³ÌµÄÖ÷Ïß³Ì£¬Èç¹ûÔÙ´Îµ÷ÓÃlock£¬µ±Ç°½ø³Ì½«ËÀËø£¬²Î¿¼test/deadlock_test.cc
-int prctl ( int option,unsigned long arg2,unsigned long arg3,unsigned long arg4,unsigned long arg5 ) PR_SET_NAME :°Ñ²ÎÊıarg2×÷Îªµ÷ÓÃ½ø³ÌµÄ¾­³£Ãû×Ö
+  1.Exception Òì³£Àà(backstrace(»ñÈ¡¶ÑÕ») backtrace_symbols(½«¶ÑµØÖ·×ª»¯Îªº¯ÊıÃû³Æ) __cxa_demangle(½âÎö»ìÏı))  
+  2.Thread Ïß³ÌÀà  
+  
+  int nanosleep(const struct timespec *req, struct timespec *rem) º¯Êı»áµ¼ÖÂµ±Ç°µÄÏß³Ì½«ÔİÍ£Ö´ĞĞ,Ö±µ½rqtp²ÎÊıËùÖ¸¶¨µÄÊ±¼ä¼ä¸ô
+  __thread gccÄÚÖÃµÄÏß³Ì¾Ö²¿´æ´¢ÉèÊ©  __thread ĞŞÊÎµÄ±äÁ¿ÊÇÏß³ÌÄÚ¾Ö²¿´æ´¢µÄ£¬Ã¿¸öÏß³Ì¶¼ÓĞÒ»·İ£¬²»»á¹²Ïí £¬Ö»ÄÜĞŞÊÎPODÀàĞÍ£º»ù±¾ÀàĞÍ»òÖ¸Õë
+  
+  int pthread_atfork(void (*prepare)(void), void (*parent)(void),void (*child)(void)); µ÷ÓÃforkÖ®Ç°ÔÚ ¸¸Ïß³ÌÄÚµ÷ÓÃprepare£¬µ÷ÓÃforkÖ®ºó£¬ÔÚ×ÓÏß³ÌÄÚµ÷ÓÃchild£¬ÔÚ¸¸Ïß³ÌÄÚµ÷ÓÃparent
+  
+  
+    ÔÚLinuxÖĞ£¬¸¸½ø³ÌÔÚ¸´ÖÆ×Ó½ø³ÌµÄÊ±ºò£¬Ö»»á¸´ÖÆµ±Ç°Ïß³ÌµÄÖ´ĞĞ×´Ì¬£¬ÆäËüÏß³Ì²»»á¸´ÖÆ£¬¶ÔÓÚ¶àÏß³Ì³ÌĞòÀ´Ëµ£¬ÎÒÃÇ×îºÃ²»ÒªÓÃfork,»áÒıÆğËÀËø£¬±ÈÈçµ±Ç°Ïß³ÌµÄËø´¦ÓÚlock×´Ì¬£¬forkÊ±µ±Ç°Ïß³ÌµÄËø»á±»¿½±´Îªlock×´Ì¬£¬forkÖ®ºóµ±Ç°Ïß³Ì»á×÷Îª×Ó½ø³ÌµÄÖ÷Ïß³Ì£¬Èç¹ûÔÙ´Îµ÷ÓÃlock£¬µ±Ç°½ø³Ì½«ËÀËø£¬²Î¿¼test/deadlock_test.cc
+  
+  int prctl ( int option,unsigned long arg2,unsigned long arg3,unsigned long arg4,unsigned long arg5 ) PR_SET_NAME :°Ñ²ÎÊıarg2×÷Îªµ÷ÓÃ½ø³ÌµÄ¾­³£Ãû×Ö
