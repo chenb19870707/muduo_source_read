@@ -14,6 +14,8 @@
  * __sync_val_compare_and_swap(ptr,old, new) 比较*ptr与old值，若相等，则将new赋给*prt,否则返回*ptr
  * __sync_fetch_and_add(prt, x),返回*ptr的值，然后再给ptr+x
  * __sync_lock_test_and_set(ptr, newValue) 给ptr赋值为newValue
+ *
+ * boost::noncopyable 不可拷贝，将拷贝构造函数设置为private
  */
 namespace muduo
 {
