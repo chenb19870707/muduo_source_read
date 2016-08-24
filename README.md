@@ -1,30 +1,44 @@
 # muduo_source_read
-¿ªÊ¼Ê±¼ä  : 2016-8ÔÂ-16ÈÕ
+å¼€å§‹æ—¶é—´  : 2016-8æœˆ-16æ—¥
 
-muduo°æ±¾£º1.0.1
-Ô´ÂëµØÖ·£ºhttp://code.google.com/p/muduo/
+muduoç‰ˆæœ¬ï¼š1.0.1
+æºç åœ°å€ï¼šhttp://code.google.com/p/muduo/
 
-linuxÄÚºË°æ±¾ >= 2.6.28.
+linuxå†…æ ¸ç‰ˆæœ¬ >= 2.6.28.
 
 
-muduoÔ´ÂëµÄÔÄ¶ÁºÍ×¢ÊÍ¡£
+muduoæºç çš„é˜…è¯»å’Œæ³¨é‡Šã€‚
 
 ##2016-08-19 
-Timestamp Ê±¼äÀà (less_than_comparable ÒªÇóÊµÏÖ < £¬¿É×Ô¶¯ÊµÏÖ >,<=,>=,Ä£°åÔª±à³ÌË¼Ïë)
+Timestamp æ—¶é—´ç±» (less_than_comparable è¦æ±‚å®ç° < ï¼Œå¯è‡ªåŠ¨å®ç° >,<=,>=,æ¨¡æ¿å…ƒç¼–ç¨‹æ€æƒ³)
 
 ##2016-08-21 
-Atomic Ô­×ÓÕûÊıÀà£¨Ô­×Ó²Ù×÷º¯Êı£©
+Atomic åŸå­æ•´æ•°ç±»ï¼ˆåŸå­æ“ä½œå‡½æ•°ï¼‰
 
 ##2016-08-22 
-###1.Exception Òì³£Àà(backstrace(»ñÈ¡¶ÑÕ») backtrace_symbols(½«¶ÑµØÖ·×ª»¯Îªº¯ÊıÃû³Æ) __cxa_demangle(½âÎö»ìÏı))  
-###2.Thread Ïß³ÌÀà  
+###1.Exception å¼‚å¸¸ç±»(backstrace(è·å–å †æ ˆ) backtrace_symbols(å°†å †åœ°å€è½¬åŒ–ä¸ºå‡½æ•°åç§°) __cxa_demangle(è§£ææ··æ·†))  
+###2.Thread çº¿ç¨‹ç±»  
   
-  int nanosleep(const struct timespec *req, struct timespec *rem) º¯Êı»áµ¼ÖÂµ±Ç°µÄÏß³Ì½«ÔİÍ£Ö´ĞĞ,Ö±µ½rqtp²ÎÊıËùÖ¸¶¨µÄÊ±¼ä¼ä¸ô
-  __thread gccÄÚÖÃµÄÏß³Ì¾Ö²¿´æ´¢ÉèÊ©  __thread ĞŞÊÎµÄ±äÁ¿ÊÇÏß³ÌÄÚ¾Ö²¿´æ´¢µÄ£¬Ã¿¸öÏß³Ì¶¼ÓĞÒ»·İ£¬²»»á¹²Ïí £¬Ö»ÄÜĞŞÊÎPODÀàĞÍ£º»ù±¾ÀàĞÍ»òÖ¸Õë
+  int nanosleep(const struct timespec *req, struct timespec *rem) å‡½æ•°ä¼šå¯¼è‡´å½“å‰çš„çº¿ç¨‹å°†æš‚åœæ‰§è¡Œ,ç›´åˆ°rqtpå‚æ•°æ‰€æŒ‡å®šçš„æ—¶é—´é—´éš”
+  __thread gccå†…ç½®çš„çº¿ç¨‹å±€éƒ¨å­˜å‚¨è®¾æ–½  __thread ä¿®é¥°çš„å˜é‡æ˜¯çº¿ç¨‹å†…å±€éƒ¨å­˜å‚¨çš„ï¼Œæ¯ä¸ªçº¿ç¨‹éƒ½æœ‰ä¸€ä»½ï¼Œä¸ä¼šå…±äº« ï¼Œåªèƒ½ä¿®é¥°PODç±»å‹ï¼šåŸºæœ¬ç±»å‹æˆ–æŒ‡é’ˆ
   
-  int pthread_atfork(void (*prepare)(void), void (*parent)(void),void (*child)(void)); µ÷ÓÃforkÖ®Ç°ÔÚ ¸¸Ïß³ÌÄÚµ÷ÓÃprepare£¬µ÷ÓÃforkÖ®ºó£¬ÔÚ×ÓÏß³ÌÄÚµ÷ÓÃchild£¬ÔÚ¸¸Ïß³ÌÄÚµ÷ÓÃparent
+  int pthread_atfork(void (*prepare)(void), void (*parent)(void),void (*child)(void)); è°ƒç”¨forkä¹‹å‰åœ¨ çˆ¶çº¿ç¨‹å†…è°ƒç”¨prepareï¼Œè°ƒç”¨forkä¹‹åï¼Œåœ¨å­çº¿ç¨‹å†…è°ƒç”¨childï¼Œåœ¨çˆ¶çº¿ç¨‹å†…è°ƒç”¨parent
   
   
-    ÔÚLinuxÖĞ£¬¸¸½ø³ÌÔÚ¸´ÖÆ×Ó½ø³ÌµÄÊ±ºò£¬Ö»»á¸´ÖÆµ±Ç°Ïß³ÌµÄÖ´ĞĞ×´Ì¬£¬ÆäËüÏß³Ì²»»á¸´ÖÆ£¬¶ÔÓÚ¶àÏß³Ì³ÌĞòÀ´Ëµ£¬ÎÒÃÇ×îºÃ²»ÒªÓÃfork,»áÒıÆğËÀËø£¬±ÈÈçµ±Ç°Ïß³ÌµÄËø´¦ÓÚlock×´Ì¬£¬forkÊ±µ±Ç°Ïß³ÌµÄËø»á±»¿½±´Îªlock×´Ì¬£¬forkÖ®ºóµ±Ç°Ïß³Ì»á×÷Îª×Ó½ø³ÌµÄÖ÷Ïß³Ì£¬Èç¹ûÔÙ´Îµ÷ÓÃlock£¬µ±Ç°½ø³Ì½«ËÀËø£¬²Î¿¼test/deadlock_test.cc
+    åœ¨Linuxä¸­ï¼Œçˆ¶è¿›ç¨‹åœ¨å¤åˆ¶å­è¿›ç¨‹çš„æ—¶å€™ï¼Œåªä¼šå¤åˆ¶å½“å‰çº¿ç¨‹çš„æ‰§è¡ŒçŠ¶æ€ï¼Œå…¶å®ƒçº¿ç¨‹ä¸ä¼šå¤åˆ¶ï¼Œå¯¹äºå¤šçº¿ç¨‹ç¨‹åºæ¥è¯´ï¼Œæˆ‘ä»¬æœ€å¥½ä¸è¦ç”¨fork,ä¼šå¼•èµ·æ­»é”ï¼Œæ¯”å¦‚å½“å‰çº¿ç¨‹çš„é”å¤„äºlockçŠ¶æ€ï¼Œforkæ—¶å½“å‰çº¿ç¨‹çš„é”ä¼šè¢«æ‹·è´ä¸ºlockçŠ¶æ€ï¼Œforkä¹‹åå½“å‰çº¿ç¨‹ä¼šä½œä¸ºå­è¿›ç¨‹çš„ä¸»çº¿ç¨‹ï¼Œå¦‚æœå†æ¬¡è°ƒç”¨lockï¼Œå½“å‰è¿›ç¨‹å°†æ­»é”ï¼Œå‚è€ƒtest/deadlock_test.cc
   
-  int prctl ( int option,unsigned long arg2,unsigned long arg3,unsigned long arg4,unsigned long arg5 ) PR_SET_NAME :°Ñ²ÎÊıarg2×÷Îªµ÷ÓÃ½ø³ÌµÄ¾­³£Ãû×Ö
+  int prctl ( int option,unsigned long arg2,unsigned long arg3,unsigned long arg4,unsigned long arg5 ) PR_SET_NAME :æŠŠå‚æ•°arg2ä½œä¸ºè°ƒç”¨è¿›ç¨‹çš„ç»å¸¸åå­—
+##2016-08-24
+
+###1.MutexLockç±»
+pthread_mutexçš„ç±»å°è£…ï¼Œæ„é€ å‡½æ•°è°ƒç”¨pthread_mutex_initï¼Œææ„å‡½æ•°pthread_mutex_destroy,åŠ é”è°ƒç”¨pthread_mutex_lock,è§£é”è°ƒç”¨pthread_mutex_unlock  
+
+###2.MutexLockGuardç±»
+å†…æœ‰ä¸€ä¸ªMutexLockçš„å¼•ç”¨ï¼Œç”±å¤–éƒ¨ä¼ å…¥ï¼Œä¸è´Ÿè´£å…¶ç”Ÿå‘½å‘¨æœŸï¼Œå±äºå…³è”ï¼Œæ„é€ å‡½æ•°è°ƒç”¨lockï¼Œææ„å‡½æ•°è°ƒç”¨unlock
+
+###3.Conditionç±» 
+ä¸´ç•ŒåŒºï¼Œå¯¹pthread_cond_tçš„å°è£…ï¼Œæ„é€ å‡½æ•°è°ƒç”¨pthread_cond_initï¼Œææ„å‡½æ•°è°ƒç”¨pthread_cond_destroyï¼Œwaitè°ƒç”¨pthread_cond_waitï¼Œnotifyè°ƒç”¨pthread_cond_signalï¼ŒnotifyAllè°ƒç”¨pthread_cond_broadcast
+
+###4.CountDownLatch
+æ—¢å¯ä»¥ç”¨äºæ‰€æœ‰å­çº¿ç¨‹å‘èµ·"èµ·è·‘",å­çº¿ç¨‹è°ƒç”¨wait,ä¸»çº¿ç¨‹è°ƒç”¨run
+ä¹Ÿå¯ä»¥ç”¨äºä¸»çº¿ç¨‹ç­‰å¾…å­çº¿ç¨‹åˆå§‹åŒ–å®Œæˆæ‰å¼€å§‹å·¥ä½œ,ä¸»çº¿ç¨‹è°ƒç”¨wait,å­çº¿ç¨‹è°ƒç”¨run
