@@ -18,3 +18,15 @@ add_executable(mutex_test Mutex_test.cc)
 target_link_libraries(mutex_test muduo_base)
 add_test(NAME mutex_test COMMAND mutex_test)
 
+add_executable(blockingQueue_test BlockingQueue_test.cc)
+target_link_libraries(blockingQueue_test muduo_base)
+add_test(NAME blockingQueue_test COMMAND blockingQueue_test)
+
+add_executable(blockingqueue_bench BlockingQueue_bench.cc)
+target_link_libraries(blockingqueue_bench muduo_base)
+add_test(NAME blockingqueue_bench COMMAND blockingqueue_bench)
+
+add_executable(boundedblockingqueue_test BoundedBlockingQueue_test.cc)
+target_link_libraries(boundedblockingqueue_test muduo_base)
+add_test(NAME boundedblockingqueue_test COMMAND boundedblockingqueue_test)
+

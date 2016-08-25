@@ -42,3 +42,9 @@ pthread_mutex的类封装，构造函数调用pthread_mutex_init，析构函数p
 ###4.CountDownLatch
 既可以用于所有子线程发起"起跑",子线程调用wait,主线程调用run  
 也可以用于主线程等待子线程初始化完成才开始工作,主线程调用wait,子线程调用run
+
+##2016-08-25
+###1.BlockingQueue
+无边界队列
+###2.BoundedBlockingQueue
+有边界队列
