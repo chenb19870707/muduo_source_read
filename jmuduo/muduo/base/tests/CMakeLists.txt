@@ -42,3 +42,7 @@ add_executable(threadlocal_test ThreadLocal_test.cc)
 target_link_libraries(threadlocal_test muduo_base)
 add_test(NAME threadlocal_test COMMAND threadlocal_test)
 
+add_executable(singletonthreadlocal_test SingletonThreadLocal_test.cc)
+target_link_libraries(singletonthreadlocal_test muduo_base)
+add_test(NAME singletonthreadlocal_test COMMAND singletonthreadlocal_test)
+
