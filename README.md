@@ -51,7 +51,7 @@ pthread_mutex的类封装，构造函数调用pthread_mutex_init，析构函数p
 
 ##2016-08-26
 ###1.Singleton类
- *typedef char T_must_be_complete_type[sizeof(T) == 0 ? -1 : 1];  
+typedef char T_must_be_complete_type[sizeof(T) == 0 ? -1 : 1];  
 T_must_be_complete_type 完整类型  
 class A;  
 A  p  
@@ -59,8 +59,8 @@ delete p;
 A就是不完整的类型，sizeof(A) == 0  
 这样 A[-1] 编译就会报错
 
- *pthread_once函数首先检查控制变量，判断是否已经完成初始化，如果完成就简单地返回；否则，pthread_once调用初始化函数，并且记录下初始化被完成。
- 如果在一个线程初始时，另外的线程调用pthread_once，则调用线程等待，直到那个现成完成初始
+pthread_once函数首先检查控制变量，判断是否已经完成初始化，如果完成就简单地返回；否则，pthread_once调用初始化函数，并且记录下初始化被完成。
+ * 如果在一个线程初始时，另外的线程调用pthread_once，则调用线程等待，直到那个现成完成初始
 
- *::atexit(destroy);						//注册销毁函数        
+  ::atexit(destroy);						//注册进程结束时调用的函数        
 
