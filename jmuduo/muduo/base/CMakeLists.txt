@@ -3,6 +3,7 @@ set(base_SRCS
   Exception.cc
   Thread.cc
   CountDownLatch.cc
+  ThreadPool.cc
   )
 
 add_library(muduo_base ${base_SRCS})

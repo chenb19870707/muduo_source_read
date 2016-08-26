@@ -30,3 +30,11 @@ add_executable(boundedblockingqueue_test BoundedBlockingQueue_test.cc)
 target_link_libraries(boundedblockingqueue_test muduo_base)
 add_test(NAME boundedblockingqueue_test COMMAND boundedblockingqueue_test)
 
+add_executable(threadpool_test ThreadPool_test.cc)
+target_link_libraries(threadpool_test muduo_base)
+add_test(NAME threadpool_test COMMAND threadpool_test)
+
+add_executable(singleton_test Singleton_test.cc)
+target_link_libraries(singleton_test muduo_base)
+add_test(NAME singleton_test COMMAND singleton_test)
+

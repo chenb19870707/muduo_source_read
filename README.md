@@ -48,3 +48,16 @@ pthread_mutex的类封装，构造函数调用pthread_mutex_init，析构函数p
 无边界队列
 ###2.BoundedBlockingQueue
 有边界队列
+
+##2016-08-26
+###1.Singleton类
+typedef char T_must_be_complete_type[sizeof(T) == 0 ? -1 : 1];  
+T_must_be_complete_type 完整类型  
+class A;  
+A  p  
+delete p;  
+A就是不完整的类型，sizeof(A) == 0  
+这样 A[-1] 编译就会报错
+
+        
+
