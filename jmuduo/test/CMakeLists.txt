@@ -14,3 +14,9 @@ target_link_libraries(countdownlatch_test1 muduo_base)
 
 add_executable(countdownlatch_test2 CountDownLatch_test2.cc)
 target_link_libraries(countdownlatch_test2 muduo_base)
+
+add_executable(reactor_test02 Reactor_test02.cc)
+target_link_libraries(reactor_test02 muduo_net)
+
+add_executable(reactor_test01 Reactor_test01.cc)
+target_link_libraries(reactor_test01 muduo_net)

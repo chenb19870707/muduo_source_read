@@ -4,6 +4,10 @@ set(base_SRCS
   Thread.cc
   CountDownLatch.cc
   ThreadPool.cc
+  Logging.cc
+  LogStream.cc
+  TimeZone.cc
+  Date.cc
   )
 
 add_library(muduo_base ${base_SRCS})
