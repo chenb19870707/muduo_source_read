@@ -46,7 +46,7 @@ Logger::LogLevel initLogLevel()
   else if (::getenv("MUDUO_LOG_DEBUG"))
     return Logger::DEBUG;
   else
-    return Logger::TRACE;
+    return Logger::DEBUG;
 }
 
 Logger::LogLevel g_logLevel = initLogLevel();

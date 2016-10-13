@@ -11,20 +11,26 @@
 #ifndef MUDUO_NET_EVENTLOOP_H
 #define MUDUO_NET_EVENTLOOP_H
 
+#include <vector>
+
 #include <boost/noncopyable.hpp>
+#include <boost/scoped_ptr.hpp>
 
 #include <muduo/base/CurrentThread.h>
 #include <muduo/base/Thread.h>
+#include <muduo/base/Timestamp.h>
+#include <muduo/net/TimerId.h>
+#include <muduo/net/Callbacks.h>
 
 namespace muduo
 {
 namespace net
 {
 
-/*
- * 每个线程最多有一个eventLoop对象
- *
- * */
+class Channel;
+class Poller;
+class TimerQueue;
+
 ///
 /// Reactor, at most one per thread.
 ///
@@ -42,6 +48,38 @@ class EventLoop : boost::noncopyable
   ///
   void loop();
 
+  void quit();
+
+  ///
+  /// Time when poll returns, usually means data arrivial.
+  ///
+  Timestamp pollReturnTime() const { return pollReturnTime_; }
+
+  ///
+  /// Runs callback at 'time'.
+  /// Safe to call from other threads.
+  ///
+  TimerId runAt(const Timestamp& time, const TimerCallback& cb);
+  ///
+  /// Runs callback after @c delay seconds.
+  /// Safe to call from other threads.
+  ///
+  TimerId runAfter(double delay, const TimerCallback& cb);
+  ///
+  /// Runs callback every @c interval seconds.
+  /// Safe to call from other threads.
+  ///
+  TimerId runEvery(double interval, const TimerCallback& cb);
+  ///
+  /// Cancels the timer.
+  /// Safe to call from other threads.
+  ///
+  void cancel(TimerId timerId);
+
+  // internal usage
+  void updateChannel(Channel* channel);		// 在Poller中添加或者更新通道
+  void removeChannel(Channel* channel);		// 从Poller中移除通道
+
   void assertInLoopThread()
   {
     if (!isInLoopThread())
@@ -55,9 +93,20 @@ class EventLoop : boost::noncopyable
 
  private:
   void abortNotInLoopThread();
+
+  void printActiveChannels() const; // DEBUG
+
+  typedef std::vector<Channel*> ChannelList;
   
-  bool looping_; /* atomic */
-  const pid_t threadId_;		// 当前对象所属线程ID
+  bool looping_; /* atomic */      	//是否处于循环状态
+  bool quit_; /* atomic */			//是否退出
+  bool eventHandling_; /* atomic */	//是否所处时间处理状态
+  const pid_t threadId_;		    //当前对象所属线程ID
+  Timestamp pollReturnTime_;		//调用poll时的时间戳
+  boost::scoped_ptr<Poller> poller_;//Poll指针
+  boost::scoped_ptr<TimerQueue> timerQueue_;
+  ChannelList activeChannels_;		// Poller返回的活动通道
+  Channel* currentActiveChannel_;	// 当前正在处理的活动通道
 };
 
 }

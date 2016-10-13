@@ -9,8 +9,11 @@
 #include <muduo/net/EventLoop.h>
 
 #include <muduo/base/Logging.h>
+#include <muduo/net/Channel.h>
+#include <muduo/net/Poller.h>
+#include <muduo/net/TimerQueue.h>
 
-#include <poll.h>
+//#include <poll.h>
 
 using namespace muduo;
 using namespace muduo::net;
@@ -18,8 +21,10 @@ using namespace muduo::net;
 namespace
 {
 // 当前线程EventLoop对象指针
-// 线程局部存储，用于判断当前线程有无EventLoop对象
+// 线程局部存储
 __thread EventLoop* t_loopInThisThread = 0;
+
+const int kPollTimeMs = 10000;
 }
 
 EventLoop* EventLoop::getEventLoopOfCurrentThread()
@@ -29,7 +34,12 @@ EventLoop* EventLoop::getEventLoopOfCurrentThread()
 
 EventLoop::EventLoop()
   : looping_(false),
-    threadId_(CurrentThread::tid())
+    quit_(false),
+    eventHandling_(false),
+    threadId_(CurrentThread::tid()),
+	poller_(Poller::newDefaultPoller(this)),
+    timerQueue_(new TimerQueue(this)),
+	currentActiveChannel_(NULL)
 {
   LOG_TRACE << "EventLoop created " << this << " in thread " << threadId_;
   // 如果当前线程已经创建了EventLoop对象，终止(LOG_FATAL)
@@ -59,10 +69,82 @@ void EventLoop::loop()
   looping_ = true;
   LOG_TRACE << "EventLoop " << this << " start looping";
 
-  ::poll(NULL, 0, 5*1000);
+  //::poll(NULL, 0, 5*1000);
+  while (!quit_)
+  {
+    activeChannels_.clear();
+    pollReturnTime_ = poller_->poll(kPollTimeMs, &activeChannels_);
+    //++iteration_;
+    if (Logger::logLevel() <= Logger::TRACE)
+    {
+      printActiveChannels();
+    }
+    // TODO sort channel by priority
+    eventHandling_ = true;
+    for (ChannelList::iterator it = activeChannels_.begin();
+        it != activeChannels_.end(); ++it)
+    {
+      currentActiveChannel_ = *it;
+      currentActiveChannel_->handleEvent(pollReturnTime_);
+    }
+    currentActiveChannel_ = NULL;
+    eventHandling_ = false;
+    //doPendingFunctors();
+  }
 
   LOG_TRACE << "EventLoop " << this << " stop looping";
   looping_ = false;
+}
+
+//该函数可以在其它线程调用
+void EventLoop::quit()
+{
+  quit_ = true;
+  if (!isInLoopThread())
+  {
+    //wakeup();
+  }
+}
+
+TimerId EventLoop::runAt(const Timestamp& time, const TimerCallback& cb)
+{
+  return timerQueue_->addTimer(cb, time, 0.0);
+}
+
+TimerId EventLoop::runAfter(double delay, const TimerCallback& cb)
+{
+  Timestamp time(addTime(Timestamp::now(), delay));
+  return runAt(time, cb);
+}
+
+TimerId EventLoop::runEvery(double interval, const TimerCallback& cb)
+{
+  Timestamp time(addTime(Timestamp::now(), interval));
+  return timerQueue_->addTimer(cb, time, interval);
+}
+
+void EventLoop::cancel(TimerId timerId)
+{
+  return timerQueue_->cancel(timerId);
+}
+
+void EventLoop::updateChannel(Channel* channel)
+{
+  assert(channel->ownerLoop() == this);
+  assertInLoopThread();
+  poller_->updateChannel(channel);
+}
+
+void EventLoop::removeChannel(Channel* channel)
+{
+  assert(channel->ownerLoop() == this);
+  assertInLoopThread();
+  if (eventHandling_)
+  {
+    assert(currentActiveChannel_ == channel ||
+        std::find(activeChannels_.begin(), activeChannels_.end(), channel) == activeChannels_.end());
+  }
+  poller_->removeChannel(channel);
 }
 
 void EventLoop::abortNotInLoopThread()
@@ -72,4 +154,12 @@ void EventLoop::abortNotInLoopThread()
             << ", current thread id = " <<  CurrentThread::tid();
 }
 
-
+void EventLoop::printActiveChannels() const
+{
+  for (ChannelList::const_iterator it = activeChannels_.begin();
+      it != activeChannels_.end(); ++it)
+  {
+    const Channel* ch = *it;
+    LOG_TRACE << "{" << ch->reventsToString() << "} ";
+  }
+}
