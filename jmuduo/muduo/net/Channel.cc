@@ -17,6 +17,14 @@
 using namespace muduo;
 using namespace muduo::net;
 
+/*
+    EPOLL 和 POLLIN 定义值相同，所以可以定义kNoneEvent，kReadEvent，kWriteEvent
+    EPOLLIN = 0x001,EPOLLPRI = 0x002,EPOLLOUT = 0x004,
+    #define POLLIN          0x001          There is data to read.
+	#define POLLPRI         0x002          There is urgent data to read.
+	#define POLLOUT         0x004           Writing now will not block.
+**/
+
 const int Channel::kNoneEvent = 0;
 const int Channel::kReadEvent = POLLIN | POLLPRI;
 const int Channel::kWriteEvent = POLLOUT;

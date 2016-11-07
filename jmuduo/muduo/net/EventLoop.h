@@ -16,6 +16,7 @@
 #include <boost/noncopyable.hpp>
 #include <boost/scoped_ptr.hpp>
 
+#include <muduo/base/Mutex.h>
 #include <muduo/base/CurrentThread.h>
 #include <muduo/base/Thread.h>
 #include <muduo/base/Timestamp.h>
@@ -38,6 +39,8 @@ class TimerQueue;
 class EventLoop : boost::noncopyable
 {
  public:
+		typedef boost::function<void()> Functor;
+
   EventLoop();
   ~EventLoop();  // force out-line dtor, for scoped_ptr members.
 
@@ -54,6 +57,16 @@ class EventLoop : boost::noncopyable
   /// Time when poll returns, usually means data arrivial.
   ///
   Timestamp pollReturnTime() const { return pollReturnTime_; }
+
+  /// Runs callback immediately in the loop thread.
+  /// It wakes up the loop, and run the cb.
+  /// If in the same loop thread, cb is run within the function.
+  /// Safe to call from other threads.
+  void runInLoop(const Functor& cb);
+  /// Queues callback in the loop thread.
+  /// Runs after finish pooling.
+  /// Safe to call from other threads.
+  void queueInLoop(const Functor& cb);
 
   ///
   /// Runs callback at 'time'.
@@ -77,6 +90,7 @@ class EventLoop : boost::noncopyable
   void cancel(TimerId timerId);
 
   // internal usage
+  void wakeup();
   void updateChannel(Channel* channel);		// 在Poller中添加或者更新通道
   void removeChannel(Channel* channel);		// 从Poller中移除通道
 
@@ -93,7 +107,8 @@ class EventLoop : boost::noncopyable
 
  private:
   void abortNotInLoopThread();
-
+  void handleRead();			    // waked up
+  void doPendingFunctors();
   void printActiveChannels() const; // DEBUG
 
   typedef std::vector<Channel*> ChannelList;
@@ -101,12 +116,19 @@ class EventLoop : boost::noncopyable
   bool looping_; /* atomic */      	//是否处于循环状态
   bool quit_; /* atomic */			//是否退出
   bool eventHandling_; /* atomic */	//是否所处时间处理状态
+  bool callingPendingFunctors_; /* atomic */ //处理非IO线程投递过来的函数
   const pid_t threadId_;		    //当前对象所属线程ID
   Timestamp pollReturnTime_;		//调用poll时的时间戳
   boost::scoped_ptr<Poller> poller_;//Poll指针
   boost::scoped_ptr<TimerQueue> timerQueue_;
+  int wakeupFd_;					// 用于eventfd
+  // unlike in TimerQueue, which is an internal class,
+  // we don't expose Channel to client.
+  boost::scoped_ptr<Channel> wakeupChannel_;	// 该通道将会纳入poller_来管理
   ChannelList activeChannels_;		// Poller返回的活动通道
   Channel* currentActiveChannel_;	// 当前正在处理的活动通道
+  MutexLock mutex_;
+  std::vector<Functor> pendingFunctors_; // @BuardedBy mutex_
 };
 
 }

@@ -20,7 +20,7 @@ namespace net
 
 class Timer;
 
-///
+/// opaque identifier：外部可见的类
 /// An opaque identifier, for canceling Timer.
 ///
 class TimerId : public muduo::copyable
