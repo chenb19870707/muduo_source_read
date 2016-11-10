@@ -72,7 +72,9 @@ void Channel::handleEvent(Timestamp receiveTime)
     guard = tie_.lock();
     if (guard)
     {
+      LOG_TRACE << "[6] usecount=" << guard.use_count();
       handleEventWithGuard(receiveTime);
+	  LOG_TRACE << "[12] usecount=" << guard.use_count();
     }
   }
   else
